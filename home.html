@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta para crystal</title>
+  <style>
+    :root {
+  --pink-light: #ffe6f2;
+  --pink: #ffb6c1;
+  --pink-dark: #ff85a2;
+  --white: #fff;
+  --text: #4a4a4a;
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+
+    body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, var(--pink-light), var(--white));
+    font-family: 'Georgia', serif;
+    color: var(--text);
+    }
+
+    /* --- SOBRE --- */
+    .envelope {
+    width: 500px;
+    height: 350px;
+    position: relative;
+    perspective: 1000px;
+    }
+
+    .body {
+    width: 100%;
+    height: 100%;
+    background: var(--pink);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    }
+
+    /* --- SOLAPA --- */
+    .flap {
+    width: 100%;
+    height: 180px;
+    background: var(--pink-dark);
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top;
+    transition: transform 1s ease;
+    border-radius: 10px 10px 0 0;
+    z-index: 2;
+    }
+
+    .envelope.open .flap {
+    transform: rotateX(180deg);
+    }
+
+    .letter {
+    width: 88%;
+    height: 82%;
+    background: var(--white);
+    position: absolute;
+    top: 22%;
+    left: 5%;
+    transform: translate(-50%, 60px);
+    border-radius: 12px;
+    padding: 25px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: all 1s ease-in-out;
+    overflow-y: auto;
+    text-align: center;
+    z-index: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .letter h2 {
+    color: var(--pink-dark);
+    }
+
+    .letter p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    }
+
+
+
+    .envelope.open .letter {
+    opacity: 1;
+    transform: translateY(-70px);
+    }
+
+    /* --- IMAGEN --- */
+    .photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 4px solid var(--pink-dark);
+    }
+
+    /* --- TEXTO --- */
+    .letter h1 {
+    color: var(--pink-dark);
+    font-size: 22px;
+    margin-bottom: 10px;
+    }
+
+
+
+    /* --- BOTÓN --- */
+    button {
+    background: var(--pink);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 12px;
+    transition: background 0.3s;
+    }
+
+    button:hover {
+    background: var(--pink-dark);
+    }
+
+    /* --- CONFETI --- */
+    .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+    }
+  </style>
+</head>
+<body>
+  <div class="envelope" id="envelope">
+    <div class="flap" id="flap"></div>
+    <div class="body">
+      <div class="letter" id="letter">
+        <img src="foto/foto.jpg" alt="Nuestra foto" class="photo">
+        <h1>Para Crystal 💖</h1>
+        <p>
+          Hola bro<br><br>
+            No quería ser la única que no te diera una carta y quise hacerlo de una manera única,
+            que sé que nos representa y nos une. Te deseo lo mejor hoy y siempre. Sabes que
+            nunca había tenido una amiga como tú, con la que conectara tan bien, que me entendiera.
+            Contigo sentí una verdadera amistad, sin envidias ni hipocresías. Somos tú y yo contra el mundo.
+            Siento que al irte te llevaste un pedacito de mí, o más bien la mitad. Eres la Judith de
+            mi Isabel, el Noé de mi Arras, el Termo de mi Antuan, el Juan Ríos de mi Martín y, lo más
+            importante, la Crystal de mi Celeste. Sabes que no sé demostrar mucho mis sentimientos,
+            pero no dudes que te extraño cada momento. Gracias por todos los buenos momentos y las risas;
+            sin ti, la prepa no hubiera sido para nada igual, y le doy gracias a Dios por haberte puesto
+            en mi camino. Sé que allá te va a ir muy bien y, cuando vuelvas, aquí te voy a estar esperando.<br><br>
+          ¡Te quiero muchísimo! 💕<br>
+       
+        </p>
+        <button id="confettiBtn">🎉</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const confettiBtn = document.getElementById('confettiBtn');
+
+    envelope.addEventListener('click', () => {
+    envelope.classList.toggle('open');
+    });
+
+    confettiBtn.addEventListener('click', () => {
+    for (let i = 0; i < 60; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        document.body.appendChild(confetti);
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = '10px';
+        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 75%)`;
+        confetti.style.animationDuration = 2 + Math.random() * 2 + 's';
+        setTimeout(() => confetti.remove(), 4000);
+    }
+    });
+    function abrirCarta() {
+    const envelope = document.querySelector('.envelope');
+    envelope.classList.toggle('abierta');
+    }
+
+</script>
+</body>
+</html>
